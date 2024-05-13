@@ -7,11 +7,34 @@
     <title>Home Page</title>
 </head>
 <body>
-    <h1>Welcome to My Flask App</h1>
-    <p>This is a simple Flask application.</p>
-    <form action="/upload" method="post" enctype="multipart/form-data">
-        <input type="file" name="file" id="file" required>
-        <button type="submit">Upload Image</button>
-    </form>
+    <div class="container">
+        <header>
+            <h1>Welcome to My Flask App</h1>
+        </header>
+        <main>
+            <p>This is a simple Flask application.</p>
+            <form action="/" method="post" enctype="multipart/form-data">
+                <label for="file">Choose file to upload:</label>
+                <input type="file" name="file" id="file" class="file-upload" required>
+                <button type="submit">Upload Image</button>
+            </form>
+            {% if uploaded_image %}
+                <h2>Uploaded Image:</h2>
+                <img src="{{ url_for('static', filename='uploads/' + uploaded_image) }}" alt="Uploaded Image" style="width:100px; height:100px;">
+                <h2>Recommended Images:</h2>
+                <div class="recommended-images">
+                    {% for image in recommendations %}
+                        <div>
+                            <img src="{{ url_for('static', filename='uploads/' + image) }}" alt="Recommended Image" style="width:100px; height:100px;">
+                            <p>{{ image }}</p> <!-- Displaying the filename below the image -->
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </main>
+    </div>
+    <footer>
+        <p>© 2024 My Flask App. All rights reserved.</p>
+    </footer>
 </body>
 </html>
