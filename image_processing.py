@@ -90,19 +90,29 @@ def extract_features_from_category(directory, category, model):
 
 def recommend_similar_images(features, all_features, all_paths, n=10):
     """Recommend n similar images based on feature similarity."""
-    neighbors = NearestNeighbors(n_neighbors=n, metric='euclidean')
-    # Ensure all_features is a 2D array and not empty
+    neighbors = NearestNeighbors(n_neighbors=n * 2, metric='euclidean')  # Get more neighbors to filter duplicates
     if all_features:
         all_features = np.array(all_features)
-        if len(all_features.shape) == 1:  # Handling 1D array to make it 2D
+        if len(all_features.shape) == 1:
             all_features = all_features.reshape(1, -1)
         neighbors.fit(all_features)
-        # Make sure features is also a 2D array
         features = np.array(features).reshape(1, -1)
         distances, indices = neighbors.kneighbors(features)
-        return [all_paths[idx] for idx in indices.flatten()]
+        recommended_images = []
+        similarity_scores = []
+        seen_paths = set()
+        for idx, distance in zip(indices.flatten(), distances.flatten()):
+            img_path = all_paths[idx]
+            if img_path not in seen_paths:
+                seen_paths.add(img_path)
+                recommended_images.append(img_path)
+                similarity_scores.append(distance)
+                if len(recommended_images) == n:
+                    break
+        return recommended_images, similarity_scores
     else:
-        return []  # Return an empty list if no features are available
+        return [], []
+
 
 
 def display_images(image_paths):

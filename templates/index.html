@@ -21,12 +21,16 @@
             {% if uploaded_image %}
                 <h2>Uploaded Image:</h2>
                 <img src="{{ url_for('static', filename='uploads/' + uploaded_image) }}" alt="Uploaded Image" style="width:100px; height:100px;">
+                <h2>Image Details:</h2>
+                <p><strong>Category:</strong> {{ category }}</p>
+                <p><strong>Interior Style:</strong> {{ style }}</p>
                 <h2>Recommended Images:</h2>
                 <div class="recommended-images">
-                    {% for image in recommendations %}
+                    {% for image, score in recommendations %}
                         <div>
                             <img src="{{ url_for('static', filename='uploads/' + image) }}" alt="Recommended Image" style="width:100px; height:100px;">
-                            <p>{{ image }}</p> <!-- Displaying the filename below the image -->
+                            <p>{{ image }}</p>
+                            <p>Similarity Score: {{ score }}</p>
                         </div>
                     {% endfor %}
                 </div>

@@ -20,22 +20,20 @@ def home():
             filename = secure_filename(file.filename)
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(file_path)
-            # Process the image using functions from image_processing.py
-            category = find_closest_category(file_path, category_features, model)
+            category, style = find_closest_category(file_path, category_features, model).split('_')
             features = extract_features(file_path, model)
-            image_paths, features_list = extract_features_from_category('dataset/Train', category, model)
-            recommended_images = recommend_similar_images(features, features_list, image_paths)
+            image_paths, features_list = extract_features_from_category('dataset/Train', f"{category}_{style}", model)
+            recommended_images, similarity_scores = recommend_similar_images(features, features_list, image_paths)
 
-            # Copy recommended images to the uploads folder and adjust the path for display
             recommended_image_paths = []
             for img_path in recommended_images:
                 dest_path = os.path.join(app.config['UPLOAD_FOLDER'], os.path.basename(img_path))
                 shutil.copy(img_path, dest_path)
-                recommended_image_paths.append(os.path.basename(dest_path))  # Store only the filename
+                recommended_image_paths.append(os.path.basename(dest_path))
 
-            # File path for the uploaded image to use in the template
-            uploaded_image_url = os.path.basename(file_path)  # Store only the filename
-            return render_template('index.html', uploaded_image=uploaded_image_url, recommendations=recommended_image_paths)
+            uploaded_image_url = os.path.basename(file_path)
+            recommendations = list(zip(recommended_image_paths, similarity_scores))
+            return render_template('index.html', uploaded_image=uploaded_image_url, recommendations=recommendations, category=category, style=style)
     return render_template('index.html')
 
 if __name__ == '__main__':
