@@ -10,7 +10,7 @@ app.config['UPLOAD_FOLDER'] = 'static/uploads'
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 model = EfficientNetB0(weights='imagenet', include_top=False, pooling='max')
-category_features = compute_average_features('dataset/Train', model)  # Assuming 'Train' directory is correctly set
+category_features = compute_average_features('dataset/test', model)
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -22,7 +22,7 @@ def home():
             file.save(file_path)
             category, style = find_closest_category(file_path, category_features, model).split('_')
             features = extract_features(file_path, model)
-            image_paths, features_list = extract_features_from_category('dataset/Train', f"{category}_{style}", model)
+            image_paths, features_list = extract_features_from_category('dataset/test', f"{category}_{style}", model)
             recommended_images, similarity_scores = recommend_similar_images(features, features_list, image_paths)
 
             recommended_image_paths = []
