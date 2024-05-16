@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -37,6 +37,54 @@
                             </div>
                         {% endfor %}
                     </div>
+                {% endif %}
+            {% endif %}
+        </main>
+    </div>
+    <footer>
+        <p>© 2024 My Flask App. All rights reserved.</p>
+    </footer>
+</body>
+</html> -->
+
+<!-- task 2 -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Home Page</title>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Welcome to My Flask App</h1>
+        </header>
+        <main>
+            <p>This is a simple Flask application.</p>
+            <form action="/" method="post" enctype="multipart/form-data">
+                <label for="file">Choose file to upload:</label>
+                <input type="file" name="file" id="file" class="file-upload" required>
+                <button type="submit">Upload Image</button>
+            </form>
+            {% if uploaded_image %}
+                <h2>Uploaded Image:</h2>
+                <img src="{{ url_for('static', filename='uploads/' + uploaded_image) }}" alt="Uploaded Image" style="width:100px; height:100px;">
+                {% if recommendations %}
+                    <h2>Recommended Images:</h2>
+                    <div class="recommended-images">
+                        {% for image, score in recommendations %}
+                            <div>
+                                <img src="{{ url_for('static', filename='uploads/' + image) }}" alt="Recommended Image" style="width:100px; height:100px;">
+                                <p>{{ image }}</p>
+                                <p>Similarity Score: {{ score }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <h2>No similar images found.</h2>
                 {% endif %}
             {% endif %}
         </main>
