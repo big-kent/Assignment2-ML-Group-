@@ -1,4 +1,5 @@
 # import os
+# import pickle
 # import numpy as np
 # from tensorflow.keras.preprocessing import image
 # from tensorflow.keras.applications import EfficientNetB0
@@ -6,6 +7,8 @@
 # from sklearn.neighbors import NearestNeighbors
 # import matplotlib.pyplot as plt
 # import matplotlib.image as mpimg
+
+# CACHE_FILE = 'features_cache.pkl'
 
 # def is_image_file(filename):
 #     """Check if a file is an image based on its extension."""
@@ -58,6 +61,18 @@
 #     for category in category_features:
 #         category_features[category] /= category_counts[category]
 #     return category_features
+
+# def load_features_from_cache():
+#     """Load features from cache file."""
+#     if os.path.exists(CACHE_FILE):
+#         with open(CACHE_FILE, 'rb') as f:
+#             return pickle.load(f)
+#     return None
+
+# def save_features_to_cache(features):
+#     """Save features to cache file."""
+#     with open(CACHE_FILE, 'wb') as f:
+#         pickle.dump(features, f)
 
 # def find_closest_category(image_path, category_features, model):
 #     """Find the closest category for a given image."""
@@ -113,8 +128,6 @@
 #     else:
 #         return [], []
 
-
-
 # def display_images(image_paths):
 #     """Display images in a grid."""
 #     plt.figure(figsize=(15, 10))
@@ -125,6 +138,13 @@
 #         plt.axis('off')
 #         plt.title(os.path.basename(img_path))
 #     plt.show()
+
+
+
+
+
+
+
 
 
 

@@ -2,7 +2,7 @@
 # from werkzeug.utils import secure_filename
 # import os
 # import shutil
-# from image_processing import extract_features, find_closest_category, recommend_similar_images, compute_average_features, extract_features_from_category
+# from image_processing import extract_features, find_closest_category, recommend_similar_images, compute_average_features, load_features_from_cache, save_features_to_cache, extract_features_from_category
 # from tensorflow.keras.applications import EfficientNetB0
 
 # app = Flask(__name__)
@@ -10,7 +10,12 @@
 # os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 # model = EfficientNetB0(weights='imagenet', include_top=False, pooling='max')
-# category_features = compute_average_features('dataset/test', model)
+
+# # Load features from cache if available
+# category_features = load_features_from_cache()
+# if category_features is None:
+#     category_features = compute_average_features('dataset/test', model)
+#     save_features_to_cache(category_features)
 
 # @app.route('/', methods=['GET', 'POST'])
 # def home():
@@ -38,6 +43,11 @@
 
 # if __name__ == '__main__':
 #     app.run(debug=True)
+
+
+
+
+
 
 # task 2============================================================================================
 from flask import Flask, render_template, request, url_for
