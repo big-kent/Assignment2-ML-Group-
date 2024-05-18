@@ -2,7 +2,7 @@
 # from werkzeug.utils import secure_filename
 # import os
 # import shutil
-# from image_processing import extract_features, find_closest_category, recommend_similar_images, compute_average_features, load_features_from_cache, save_features_to_cache, extract_features_from_category
+# from Task_3 import extract_features, find_closest_category, recommend_similar_images, compute_average_features, load_features_from_cache, save_features_to_cache, extract_features_from_category
 # from tensorflow.keras.applications import EfficientNetB0
 
 # app = Flask(__name__)
@@ -50,12 +50,12 @@
 
 
 # task 2============================================================================================
-from flask import Flask, render_template, request, url_for
-from werkzeug.utils import secure_filename
+from flask import Flask, render_template, request, url_for # type: ignore
+from werkzeug.utils import secure_filename # type: ignore
 import os
 import shutil
-from image_processing import extract_features, extract_features_from_dataset, recommend_similar_images
-from tensorflow.keras.applications import EfficientNetB0
+from Task_2 import extract_features, extract_features_from_dataset, recommend_similar_images
+from tensorflow.keras.applications import EfficientNetB0 # type: ignore
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
